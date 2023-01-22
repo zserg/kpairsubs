@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service
 import java.time.LocalTime
 import java.util.*
 
+import java.time.temporal.ChronoUnit.MILLIS
+
+
 @Service
 class PairSubsService {
 
@@ -49,4 +52,7 @@ class PairSubsService {
             .map(SubItem::text)
             .toList()
     }
+
+
+
 }

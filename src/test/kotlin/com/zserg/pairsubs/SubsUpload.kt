@@ -1,9 +1,6 @@
 package com.zserg.pairsubs
 
-import com.zserg.pairsubs.model.Language
-import com.zserg.pairsubs.model.PairSubs
-import com.zserg.pairsubs.model.SubItem
-import com.zserg.pairsubs.model.Subs
+import com.zserg.pairsubs.model.*
 import com.zserg.pairsubs.srtparser.SRTParser
 import com.zserg.pairsubs.utils.SrtUtils
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -21,7 +18,8 @@ class SubsUpload {
 
         val pairSubs = PairSubs(title = "How I met your mother (S01E02)",
             subs1 = Subs(Language.RU, subs_ru),
-            subs2 = Subs(Language.EN, subs_en)
+            subs2 = Subs(Language.EN, subs_en),
+            config = PairSubsConfig(3, 456, 1, 402)
         )
 
         val restTemplate = RestTemplate()

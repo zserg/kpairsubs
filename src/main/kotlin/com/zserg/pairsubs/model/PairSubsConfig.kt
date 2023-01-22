@@ -1,6 +1,8 @@
 package com.zserg.pairsubs.model
 
 class PairSubsConfig(
-    val offsetInMillIs: Int = 0,
-    val scale: Float = 0f
+    val start1: Long = 0,
+    val end1: Long = 0,
+    val start2: Long = 0,
+    val end2: Long = 0,
     )
