@@ -35,13 +35,12 @@ class PairSubsService {
     }
 
     private fun getParallelSubtitles(pairSubs: PairSubs, start: Long, length: Long): Subtitles {
-        val startTime = LocalTime.ofSecondOfDay(start)
-        val endTime = LocalTime.ofSecondOfDay(start + length)
+        val (startTime1, endTime1, startTime2, endTime2) = pairSubs.getIntervals(start, length)
 
         val subtitles = Subtitles(
             pairSubs.title,
-            getSubtitles(pairSubs.subs1.subs, startTime, endTime),
-            getSubtitles(pairSubs.subs2.subs, startTime, endTime),
+            getSubtitles(pairSubs.subs1.subs, startTime1, endTime1),
+            getSubtitles(pairSubs.subs2.subs, startTime2, endTime2),
         )
         return subtitles;
 

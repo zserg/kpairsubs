@@ -19,10 +19,10 @@ class PairSubs(
     ){
 
     private fun alignParams(): AlignmentParams {
-        val startTime1 = subs1.subs[config.start1.toInt()].start
-        val endTime1 = subs1.subs[config.end1.toInt()].end
-        val startTime2 = subs2.subs[config.start2.toInt()].start
-        val endTime2 = subs2.subs[config.end2.toInt()].end
+        val startTime1 = subs1.subs[config.start1.toInt()-1].start
+        val endTime1 = subs1.subs[config.end1.toInt()-1].end
+        val startTime2 = subs2.subs[config.start2.toInt()-1].start
+        val endTime2 = subs2.subs[config.end2.toInt()-1].end
 //        val startTime1 = LocalTime.of(0, 1)
 //        val endTime1 = LocalTime.of(0, 10)
 //        val startTime2 = LocalTime.of(0, 0)

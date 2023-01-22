@@ -25,7 +25,7 @@ class SubsUpload {
         val restTemplate = RestTemplate()
         val request: HttpEntity<PairSubs> = HttpEntity<PairSubs>(pairSubs)
         val response =
-            restTemplate.postForObject("http://localhost:8080/upload", request, String::class.java)
+            restTemplate.postForObject("http://localhost:8080/pairsubs", request, String::class.java)
 
 
         assertTrue(true)
