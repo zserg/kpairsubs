@@ -30,7 +30,6 @@ class SubsUpload {
 
         assertTrue(true)
     }
-//    val (strings, strings1) = SrtUtils.getParallelSubs(pairSubs, 0, 30)
 
     private fun read(file: String, language: Language): List<SubItem> {
         val subs = SRTParser.getSubtitlesFromFile(file)

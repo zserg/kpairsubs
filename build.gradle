@@ -6,6 +6,8 @@ plugins {
 	id 'org.jetbrains.kotlin.jvm' version '1.8.0'
 	id 'org.jetbrains.kotlin.plugin.spring' version '1.8.0'
 	id 'java'
+	id 'com.google.cloud.tools.jib' version '3.0.0'
+
 }
 
 group = 'com.zserg'
@@ -40,4 +42,18 @@ tasks.withType(KotlinCompile) {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jib {
+	from {
+		image = 'openjdk:17.0.2'
+	}
+	to {
+		image = 'docker.io/zserg/pairsubs'
+		tags = ['0.1', 'latest']
+	}
+	container {
+		mainClass = 'com.zserg.pairsubs.PairsubsApplicationKt'
+		format = 'Docker'
+	}
 }
