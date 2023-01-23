@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalTime
 
 import java.time.temporal.ChronoUnit.MILLIS
+import kotlin.random.Random
 
 @Document
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -16,13 +17,13 @@ class PairSubs(
     var subs1: Subs,
     var subs2: Subs,
     var config: PairSubsConfig = PairSubsConfig()
-    ){
+) {
 
     private fun alignParams(): AlignmentParams {
-        val startTime1 = subs1.subs[config.start1.toInt()-1].start
-        val endTime1 = subs1.subs[config.end1.toInt()-1].end
-        val startTime2 = subs2.subs[config.start2.toInt()-1].start
-        val endTime2 = subs2.subs[config.end2.toInt()-1].end
+        val startTime1 = subs1.subs[config.start1.toInt() - 1].start
+        val endTime1 = subs1.subs[config.end1.toInt() - 1].end
+        val startTime2 = subs2.subs[config.start2.toInt() - 1].start
+        val endTime2 = subs2.subs[config.end2.toInt() - 1].end
 //        val startTime1 = LocalTime.of(0, 1)
 //        val endTime1 = LocalTime.of(0, 10)
 //        val startTime2 = LocalTime.of(0, 0)
@@ -44,13 +45,20 @@ class PairSubs(
         val offsetMillis = alignParams().offsetMillis
         val scale = alignParams().scale
 
-        val s1 = base.plusSeconds(startSeconds)
+        var startSecondsInt = startSeconds
+
+        if (startSeconds.equals(-1L)) {
+            val startTime1 = subs1.subs[config.start1.toInt() - 1].start.toSecondOfDay()
+            val endTime1 = subs1.subs[config.end1.toInt() - 1].end.toSecondOfDay()
+            startSecondsInt = Random.nextLong(startTime1.toLong(), endTime1.toLong())
+        }
+        val s1 = base.plusSeconds(startSecondsInt)
         val e1 = s1.plusSeconds(lengthSeconds)
 
-        var s2 = base.plusNanos(offsetMillis * 1_000_000).plusNanos((scale * startSeconds * 1_000_000_000).toLong())
+        var s2 = base.plusNanos(offsetMillis * 1_000_000).plusNanos((scale * startSecondsInt * 1_000_000_000).toLong())
         val e2 = s2.plusNanos((scale * lengthSeconds * 1_000_000_000).toLong())
 
-        if(s2.compareTo(e2) > 0){
+        if (s2.compareTo(e2) > 0) {
             s2 = LocalTime.of(0, 0, 0)
         }
 
@@ -58,6 +66,11 @@ class PairSubs(
     }
 
     data class AlignmentParams(val base: LocalTime, val offsetMillis: Long, val scale: Float)
-    data class Intervals(val startTime1: LocalTime, val endTime1: LocalTime, val startTime2: LocalTime, val endTime2: LocalTime)
+    data class Intervals(
+        val startTime1: LocalTime,
+        val endTime1: LocalTime,
+        val startTime2: LocalTime,
+        val endTime2: LocalTime
+    )
 
 }

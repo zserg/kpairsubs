@@ -3,6 +3,7 @@ package com.zserg.pairsubs.service
 import com.zserg.pairsubs.model.PairSubs
 import com.zserg.pairsubs.model.SubItem
 import com.zserg.pairsubs.model.Subtitles
+import com.zserg.pairsubs.model.SubtitlesView
 import com.zserg.pairsubs.repository.PairSubsRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -28,9 +29,21 @@ class PairSubsService {
         return paisSubs
     }
 
-    fun getSubtitles(id: String, start: Long, length: Long): Optional<Subtitles>{
-        return pairSubsRespository.findById(id).map{
-            p -> getParallelSubtitles(p, start, length)
+    fun getRandomSubtitles(): Subtitles? {
+        return pairSubsRespository.findAll().random()?.let {
+            getParallelSubtitles(it, -1, 20)
+//            val subtitles = getParallelSubtitles(it, -1, 20)
+//            SubtitlesView(
+//                subtitles.title,
+//                subtitles.subs1.joinToString(separator = "\n"),
+//                subtitles.subs2.joinToString(separator = "\n"),
+//            )
+        }
+    }
+
+    fun getSubtitles(id: String, start: Long, length: Long): Optional<Subtitles> {
+        return pairSubsRespository.findById(id).map { p ->
+            getParallelSubtitles(p, start, length)
         }
     }
 
@@ -51,7 +64,6 @@ class PairSubsService {
             .map(SubItem::text)
             .toList()
     }
-
 
 
 }
